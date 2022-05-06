@@ -2,17 +2,21 @@ import { useState, useEffect } from "react";
 import cerrarModal from "../img/cerrar.svg";
 import Mensaje from "./Mensaje";
 
-const Modal = ({ setModal, animarModal, guardarGasto, gastoEditar }) => {
+const Modal = ({ setModal, animarModal, guardarGasto, gastoEditar, setGastoEditar }) => {
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState("");
   const [categoria, setCategoria] = useState("");
-  const [mensaje, setMensaje] = useState('')
+  const [mensaje, setMensaje] = useState('');
+  const [id, setId] = useState('');
+  const [fecha, setFecha] = useState('')
 
   useEffect(()=>{
     if(Object.keys(gastoEditar).length > 0){
       setNombre(gastoEditar.nombre)
       setCantidad(gastoEditar.cantidad)
       setCategoria(gastoEditar.categoria)
+      setId(gastoEditar.id)
+      setFecha(gastoEditar.fecha)
     }
   },[])
 
@@ -26,10 +30,12 @@ const Modal = ({ setModal, animarModal, guardarGasto, gastoEditar }) => {
       },1200)
       return
     }
-    guardarGasto({nombre, cantidad, categoria})
+    guardarGasto({nombre, cantidad, categoria, id, fecha})
   }
   const cerraModal = () => {
     setModal(false);
+    setGastoEditar({})
+
   };
   return (
     <div className="modal">
@@ -78,7 +84,7 @@ const Modal = ({ setModal, animarModal, guardarGasto, gastoEditar }) => {
             <option value="salud">Salud</option>
             <option value="suscripciones">Suscripciones</option>
           </select>
-          <input type="submit" value={gastoEditar.nombre ? 'Editar Gasto': 'Añadir Gasto'} />
+          <input type="submit" value={gastoEditar.nombre ? 'Guardar Cambios': 'Añadir Gasto'} />
         </div>
       </form>
     </div>
